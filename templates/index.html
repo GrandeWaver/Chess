@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<style>
+body{
+background-color: #333333;
+color: 	#b3b3b3;
+}
+
+#ChessBoard{
+background-image: url('https://images.chesscomfiles.com/chess-themes/boards/green/150.png');
+background-repeat: round space;
+width:824px;
+height:824px;
+margin-left: 26%;
+margin-top: 3.5%;
+}
+
+div{
+width:103px;
+height:103px;
+float:left;
+}
+
+.piece{
+  cursor:-webkit-grab;
+}
+
+.piece:hover{
+  border: 4px solid #333333;
+}
+
+.piece.selected{
+  background-color: #ffe066;
+}
+
+.bp{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/1024px-Chess_pdt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.bR{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/1024px-Chess_rdt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.bN{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/1024px-Chess_ndt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.bB{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/1024px-Chess_bdt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.bQ{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/1024px-Chess_qdt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.bK{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/1024px-Chess_kdt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wp{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/1024px-Chess_plt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wR{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/1024px-Chess_rlt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wN{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/1024px-Chess_nlt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wB{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/1024px-Chess_blt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wQ{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/1024px-Chess_qlt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+.wK{
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/1024px-Chess_klt45.svg.png');
+  width: 103px;
+  height: 103px;
+  background-repeat: round space;
+}
+
+</style>
+</head>
+<body>
+
+
+
+<div id="ChessBoard"></div>
+<div id="moveLog" style="width: 190px;"></div>
+
+
+
+<script>
+
+var ii ="ii";
+var wp ="wp";var wR ="wR";var wN ="wN";var wB ="wB";var wQ ="wQ";var wK ="wK";
+var bp ="bp";var bR ="bR";var bN ="bN";var bB ="bB";var bQ ="bQ";var bK ="bK";
+
+var sq00 = 'sq00'; var sq01 = 'sq01'; var sq02 = 'sq02'; var sq03 = 'sq03'; var sq04 = 'sq04'; var sq05 = 'sq05'; var sq06 = 'sq06'; var sq07 = 'sq07';
+var sq10 = 'sq10'; var sq11 = 'sq11'; var sq12 = 'sq12'; var sq13 = 'sq13'; var sq14 = 'sq14'; var sq15 = 'sq15'; var sq16 = 'sq16'; var sq17 = 'sq17';
+var sq20 = 'sq20'; var sq21 = 'sq21'; var sq22 = 'sq22'; var sq23 = 'sq23'; var sq24 = 'sq24'; var sq25 = 'sq25'; var sq26 = 'sq26'; var sq27 = 'sq27';
+var sq30 = 'sq30'; var sq31 = 'sq31'; var sq32 = 'sq32'; var sq33 = 'sq33'; var sq34 = 'sq34'; var sq35 = 'sq35'; var sq36 = 'sq36'; var sq37 = 'sq37';
+var sq40 = 'sq40'; var sq41 = 'sq41'; var sq42 = 'sq42'; var sq43 = 'sq43'; var sq44 = 'sq44'; var sq45 = 'sq45'; var sq46 = 'sq46'; var sq47 = 'sq47';
+var sq50 = 'sq50'; var sq51 = 'sq51'; var sq52 = 'sq52'; var sq53 = 'sq53'; var sq54 = 'sq54'; var sq55 = 'sq55'; var sq56 = 'sq56'; var sq57 = 'sq57';
+var sq60 = 'sq60'; var sq61 = 'sq61'; var sq62 = 'sq62'; var sq63 = 'sq63'; var sq64 = 'sq64'; var sq65 = 'sq65'; var sq66 = 'sq66'; var sq67 = 'sq67';
+var sq70 = 'sq70'; var sq71 = 'sq71'; var sq72 = 'sq72'; var sq73 = 'sq73'; var sq74 = 'sq74'; var sq75 = 'sq75'; var sq76 = 'sq76'; var sq77 = 'sq77';
+
+
+var playerClicks = [];
+var pieceSelected = [];
+var state = 1;
+
+
+function load_game(){
+  (async () => {
+
+  const res = await fetch('/app/board');
+  const json = await res.json();
+
+
+  for (var r=0; r< 8; r++){
+    for (var c=0; c< 8; c++){
+      piece = json[r][c]
+      var node = document.getElementById("ChessBoard").appendChild(document.createElement("div"));
+
+      if (piece != "ii"){
+        var div = node.setAttribute("class", 'piece '+piece+' '+'sq'+[c]+[r]);
+        div = node.setAttribute("onclick", 'clickFunction('+piece+', '+'sq'+[c]+[r]+')');
+      
+        }
+        else{
+          div = node.setAttribute("class", 'empty '+piece+' '+'sq'+[c]+[r])
+          div = node.setAttribute("onclick", 'clickFunction('+piece+', '+'sq'+[c]+[r]+')')
+        }
+      }
+    }
+  })()
+}
+
+
+function clickFunction(piece, square){
+  var sqare = new String(square);
+
+  var squareDiv = $('.'+square);
+
+  squareDiv.removeClass('selected');
+  squareDiv.addClass('selected');
+
+  if (playerClicks.length == 0 && piece == 'ii'){  //the user clicked first time but in empty square
+    return
+  }
+  else if (playerClicks.length == 0){  //the user clicked first time
+    playerClicks.push(square);
+    pieceSelected.push(piece);
+  }
+  else {
+    playerClicks.push(square);  //append for both 1st and 2nd clicks
+    pieceSelected.push(piece);
+
+    if(playerClicks[0] == playerClicks[1]){  //the user clicked the same squere twice
+      squareDiv.removeClass('selected');
+    
+    playerClicks = [];
+    pieceSelected = [];
+    }
+    else if(pieceSelected[0] == 'ii'){  //the user clicked in empty square
+      squareDiv.removeClass('selected');
+
+      playerClicks = [];
+      pieceSelected = [];
+    }
+    else {
+
+      var move_class = new Move(playerClicks, pieceSelected);
+      move_class.makeMove()
+
+      playerClicks = [];
+      pieceSelected = [];
+    }
+}
+}
+
+class Move {
+  constructor(playerClicks, pieceSelected) {
+    this.startSquere = playerClicks[0];
+    this.endSquere = playerClicks[1];
+    this.pieceMoved = pieceSelected[0];
+    this.pieceCaptured = pieceSelected[1];
+    this.whiteMove = true;
+    this.MoveLog = [];
+  }
+  makeMove(){
+
+    send_move(this.startSquere, this.endSquere);
+
+    this.MoveLog.push({'state': state, 'pieceMoved': this.pieceMoved, 'startSquere': this.startSquere, 'endSquere': this.endSquere});
+    console.log(this.MoveLog[0]);
+
+
+
+    var first_click = $('.'+this.startSquere);
+
+    first_click.removeClass();
+    first_click.addClass('empty').addClass('ii').addClass(this.startSquere);
+    document.getElementsByClassName(this.startSquere)[0].setAttribute("onclick", 'clickFunction(ii, '+this.startSquere+')');
+
+    var second_click = $('.'+this.endSquere);
+      
+    second_click.removeClass();
+    second_click.addClass('piece').addClass(this.pieceMoved).addClass(this.endSquere);
+    document.getElementsByClassName(this.endSquere)[0].setAttribute("onclick", 'clickFunction('+this.pieceMoved+', '+this.endSquere+')');
+
+    state++;
+    this.whiteMove = !this.whiteMove;
+  }
+}
+
+
+function send_move(startSq, endSq, gamestate){
+  // wyślij serwerowi dane z którego pola ruszyłeś na jakie
+  (async () => {
+    var sendedMove = [{'start_square': startSq, 'end_square': endSq}]
+
+    const res = await fetch(`/app/board/move/?moves=`+startSq+' '+endSq);
+    const json = await res.json();
+
+    console.log(json)
+  }
+)()};
+
+window.onload = load_game()
+
+
+refresh_board();
+
+function refresh_board(){
+  (async () => {
+
+  const res = await fetch('/app/board');
+  const json = await res.json();
+
+
+  for (var r=0; r< 8; r++){
+    for (var c=0; c< 8; c++){
+      piece = json[r][c]
+        var node = $('.sq'+[c]+[r])
+        node.removeClass();
+
+        node.addClass(piece).addClass('sq'+[c]+[r]);
+        node.addClass('empty').addClass('ii').addClass('sq'+[c]+[r]);
+    }
+  }
+
+  })()
+  setTimeout(refresh_board, 2000);
+}
+
+
+
+
+</script>
+
+</body>
+</html>
