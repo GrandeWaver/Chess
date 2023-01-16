@@ -1,5 +1,5 @@
 # Chess
-Wanna play chess on local network?
+Wanna play chess on your own rules?
 
 
 Install uvicorn and type in cmd: uvicorn main:app
