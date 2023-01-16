@@ -1,5 +1,5 @@
 # Chess
-Maybe you want play chess in local network?
+Wanna play chess on local network?
 
 
 Install uvicorn and type in cmd: uvicorn main:app
